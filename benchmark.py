@@ -2,6 +2,9 @@ import time
 from cStringIO import StringIO
 from PIL import Image, ImageOps
 
+
+INPUT_DIR = 'input/'
+
 def analyze_gif(blob):
     im = Image.open(blob)
     results = {
@@ -64,7 +67,7 @@ def resize_gif(blob, width, height, write_to=''):
 
 
 def bench_header(path, num_iter):
-    with open(path) as f:
+    with open(INPUT_DIR + path) as f:
         blob = f.read()
     blob = StringIO(blob)
     timings = []
@@ -97,7 +100,7 @@ save_opts = {
 
 
 def bench_resize(path, output_type, width, height, num_iter):
-    with open(path) as f:
+    with open(INPUT_DIR + path) as f:
         blob = f.read()
     blob = StringIO(blob)
     timings = []
@@ -122,7 +125,7 @@ def bench_resize(path, output_type, width, height, num_iter):
 
 
 def bench_resize_gif(path, width, height, num_iter):
-    with open(path) as f:
+    with open(INPUT_DIR + path) as f:
         blob = f.read()
     blob = StringIO(blob)
     timings = []
@@ -141,7 +144,7 @@ def bench_resize_gif(path, width, height, num_iter):
 
 
 def bench_transcode(path, output_type, num_iter):
-    with open(path) as f:
+    with open(INPUT_DIR + path) as f:
         blob = f.read()
     blob = StringIO(blob)
     timings = []

@@ -9,6 +9,8 @@ import (
 	"github.com/discordapp/lilliput"
 )
 
+const INPUT_DIR = "input/"
+
 var Ops *lilliput.ImageOps
 
 var EncodeOptions = map[string]map[int]int{
@@ -24,7 +26,7 @@ func (d durations) Less(a, b int) bool { return d[a] < d[b] }
 func (d durations) Swap(a, b int)      { d[a], d[b] = d[b], d[a] }
 
 func bench_header(path string, numIter int) {
-	inputBuf, _ := ioutil.ReadFile(path)
+	inputBuf, _ := ioutil.ReadFile(INPUT_DIR + path)
 
 	timings := make(durations, 0)
 	for i := 0; i < numIter; i++ {
@@ -52,7 +54,7 @@ func bench_header(path string, numIter int) {
 }
 
 func bench_resize(path string, outputType string, width, height, numIter int) {
-	inputBuf, _ := ioutil.ReadFile(path)
+	inputBuf, _ := ioutil.ReadFile(INPUT_DIR + path)
 
 	outputImg := make([]byte, 50*1024*1024)
 	opts := &lilliput.ImageOptions{
@@ -90,7 +92,7 @@ func bench_resize(path string, outputType string, width, height, numIter int) {
 }
 
 func bench_transcode(path string, outputType string, numIter int) {
-	inputBuf, _ := ioutil.ReadFile(path)
+	inputBuf, _ := ioutil.ReadFile(INPUT_DIR + path)
 
 	outputImg := make([]byte, 50*1024*1024)
 	opts := &lilliput.ImageOptions{
