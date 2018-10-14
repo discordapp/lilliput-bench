@@ -169,7 +169,7 @@ def main():
     print 'PNG 1920x1080 header read:',
     bench_header('1920.png', 10000)
     print 'WEBP 1920x1080 header read:',
-    bench_header('1920.webp', 100)
+    bench_header('1920.webp', 10000)
     print 'GIF 1920x1080 header read:',
     bench_header('1920.gif', 10000)
 

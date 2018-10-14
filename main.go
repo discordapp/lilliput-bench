@@ -130,16 +130,16 @@ func main() {
 	defer Ops.Close()
 
 	fmt.Printf("JPEG 1920x1080 header read: ")
-	bench_header("1920.jpeg", 100000)
+	bench_header("1920.jpeg", 10000)
 
 	fmt.Printf("PNG 1920x1080 header read: ")
-	bench_header("1920.png", 100000)
+	bench_header("1920.png", 10000)
 
 	fmt.Printf("WEBP 1920x1080 header read: ")
-	bench_header("1920.webp", 100000)
+	bench_header("1920.webp", 10000)
 
 	fmt.Printf("GIF 1920x1080 header read: ")
-	bench_header("1920.gif", 100000)
+	bench_header("1920.gif", 10000)
 
 	fmt.Printf("JPEG 256x256 => 32x32: ")
 	bench_resize("256.jpeg", ".jpeg", 32, 32, 1000)
@@ -166,11 +166,11 @@ func main() {
 	bench_resize("1920.gif", ".gif", 800, 600, 50)
 
 	fmt.Printf("PNG 256x256 => WEBP 256x256: ")
-	bench_transcode("256.png", ".webp", 1000)
+	bench_transcode("256.png", ".webp", 100)
 
 	fmt.Printf("JPEG 256x256 => PNG 256x256: ")
-	bench_transcode("256.jpeg", ".png", 1000)
+	bench_transcode("256.jpeg", ".png", 100)
 
 	fmt.Printf("GIF 256x256 => PNG 256x256: ")
-	bench_transcode("256.gif", ".png", 1000)
+	bench_transcode("256.gif", ".png", 100)
 }
