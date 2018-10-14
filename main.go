@@ -32,7 +32,7 @@ func bench_header(path string, numIter int) {
 		decoder, _ := lilliput.NewDecoder(inputBuf)
 		header, _ := decoder.Header()
 		if i == 0 {
-			fmt.Printf("%dx%d, ", header.Width(), header.Height())
+			fmt.Printf("%dx%d,\t", header.Width(), header.Height())
 		}
 		decoder.Close()
 		timings = append(timings, time.Since(start))
@@ -45,8 +45,8 @@ func bench_header(path string, numIter int) {
 		totalTime += t
 	}
 
-	fmt.Printf("avg: %.6f ms, ", totalTime.Seconds()/float64(len(timings))*1000)
-	fmt.Printf("min: %.6f ms, ", timings[0].Seconds()*1000)
+	fmt.Printf("avg: %.6f ms,\t", totalTime.Seconds()/float64(len(timings))*1000)
+	fmt.Printf("min: %.6f ms,\t", timings[0].Seconds()*1000)
 	fmt.Printf("max: %.6f ms", timings[len(timings)-1].Seconds()*1000)
 	fmt.Printf("\n")
 }
@@ -69,7 +69,7 @@ func bench_resize(path string, outputType string, width, height, numIter int) {
 		decoder, _ := lilliput.NewDecoder(inputBuf)
 		outputImg, _ = Ops.Transform(decoder, opts, outputImg)
 		if i == 0 {
-			fmt.Printf("%d Bytes, ", len(outputImg))
+			fmt.Printf("%d Bytes,\t", len(outputImg))
 			ioutil.WriteFile(fmt.Sprintf("go_%d%s", width, outputType), outputImg, 0400)
 		}
 		decoder.Close()
@@ -83,8 +83,8 @@ func bench_resize(path string, outputType string, width, height, numIter int) {
 		totalTime += t
 	}
 
-	fmt.Printf("avg: %.2f ms, ", totalTime.Seconds()/float64(len(timings))*1000)
-	fmt.Printf("min: %.2f ms, ", timings[0].Seconds()*1000)
+	fmt.Printf("avg: %.2f ms,\t", totalTime.Seconds()/float64(len(timings))*1000)
+	fmt.Printf("min: %.2f ms,\t", timings[0].Seconds()*1000)
 	fmt.Printf("max: %.2f ms", timings[len(timings)-1].Seconds()*1000)
 	fmt.Printf("\n")
 }
@@ -105,7 +105,7 @@ func bench_transcode(path string, outputType string, numIter int) {
 		decoder, _ := lilliput.NewDecoder(inputBuf)
 		outputImg, _ = Ops.Transform(decoder, opts, outputImg)
 		if i == 0 {
-			fmt.Printf("%d Bytes, ", len(outputImg))
+			fmt.Printf("%d Bytes,\t", len(outputImg))
 			ioutil.WriteFile(fmt.Sprintf("go_%s_transcode%s", path, outputType), outputImg, 0400)
 		}
 		decoder.Close()
@@ -119,8 +119,8 @@ func bench_transcode(path string, outputType string, numIter int) {
 		totalTime += t
 	}
 
-	fmt.Printf("avg: %.2f ms, ", totalTime.Seconds()/float64(len(timings))*1000)
-	fmt.Printf("min: %.2f ms, ", timings[0].Seconds()*1000)
+	fmt.Printf("avg: %.2f ms,\t", totalTime.Seconds()/float64(len(timings))*1000)
+	fmt.Printf("min: %.2f ms,\t", timings[0].Seconds()*1000)
 	fmt.Printf("max: %.2f ms", timings[len(timings)-1].Seconds()*1000)
 	fmt.Printf("\n")
 }
@@ -129,48 +129,48 @@ func main() {
 	Ops = lilliput.NewImageOps(8192)
 	defer Ops.Close()
 
-	fmt.Printf("JPEG 1920x1080 header read: ")
+	fmt.Printf("JPEG 1920x1080 header read:\t")
 	bench_header("1920.jpeg", 100000)
 
-	fmt.Printf("PNG 1920x1080 header read: ")
+	fmt.Printf("PNG 1920x1080 header read:\t")
 	bench_header("1920.png", 100000)
 
-	fmt.Printf("WEBP 1920x1080 header read: ")
+	fmt.Printf("WEBP 1920x1080 header read:\t")
 	bench_header("1920.webp", 100000)
 
-	fmt.Printf("GIF 1920x1080 header read: ")
+	fmt.Printf("GIF 1920x1080 header read:\t")
 	bench_header("1920.gif", 100000)
 
-	fmt.Printf("JPEG 256x256 => 32x32: ")
+	fmt.Printf("JPEG 256x256 => 32x32:\t")
 	bench_resize("256.jpeg", ".jpeg", 32, 32, 1000)
 
-	fmt.Printf("PNG 256x256 => 32x32: ")
+	fmt.Printf("PNG 256x256 => 32x32:\t")
 	bench_resize("256.png", ".png", 32, 32, 1000)
 
-	fmt.Printf("WEBP 256x256 => 32x32: ")
+	fmt.Printf("WEBP 256x256 => 32x32:\t")
 	bench_resize("256.webp", ".webp", 32, 32, 1000)
 
-	fmt.Printf("GIF 256x256 => 32x32: ")
+	fmt.Printf("GIF 256x256 => 32x32:\t")
 	bench_resize("256.gif", ".gif", 32, 32, 1000)
 
-	fmt.Printf("JPEG 1920x1080 => 800x600: ")
+	fmt.Printf("JPEG 1920x1080 => 800x600:\t")
 	bench_resize("1920.jpeg", ".jpeg", 800, 600, 100)
 
-	fmt.Printf("PNG 1920x1080 => 800x600: ")
+	fmt.Printf("PNG 1920x1080 => 800x600:\t")
 	bench_resize("1920.png", ".png", 800, 600, 100)
 
-	fmt.Printf("WEBP 1920x1080 => 800x600: ")
+	fmt.Printf("WEBP 1920x1080 => 800x600:\t")
 	bench_resize("1920.webp", ".webp", 800, 600, 100)
 
-	fmt.Printf("GIF 1920x1080 => 800x600: ")
+	fmt.Printf("GIF 1920x1080 => 800x600:\t")
 	bench_resize("1920.gif", ".gif", 800, 600, 50)
 
-	fmt.Printf("PNG 256x256 => WEBP 256x256: ")
+	fmt.Printf("PNG 256x256 => WEBP 256x256:\t")
 	bench_transcode("256.png", ".webp", 1000)
 
-	fmt.Printf("JPEG 256x256 => PNG 256x256: ")
+	fmt.Printf("JPEG 256x256 => PNG 256x256:\t")
 	bench_transcode("256.jpeg", ".png", 1000)
 
-	fmt.Printf("GIF 256x256 => PNG 256x256: ")
+	fmt.Printf("GIF 256x256 => PNG 256x256:\t")
 	bench_transcode("256.gif", ".png", 1000)
 }
