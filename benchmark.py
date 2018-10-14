@@ -2,6 +2,9 @@ import time
 from cStringIO import StringIO
 from PIL import Image, ImageOps
 
+
+Image.init()
+
 def analyze_gif(blob):
     im = Image.open(blob)
     results = {
@@ -29,7 +32,7 @@ def resize_gif(blob, width, height, write_to=''):
 
     i = 0
     p = im.getpalette()
-    last_frame = ImageOps.fit(im.convert('RGBA'), (width, height), Image.LANCZOS)
+    last_frame = ImageOps.fit(im.convert('RGBA'), (width, height), Image.BICUBIC)
     frames = []
 
     try:
@@ -42,7 +45,7 @@ def resize_gif(blob, width, height, write_to=''):
             if mode == 'partial':
                 new_frame.paste(last_frame)
 
-            resized_frame = ImageOps.fit(im, (width, height), Image.LANCZOS)
+            resized_frame = ImageOps.fit(im, (width, height), Image.BICUBIC)
             new_frame.paste(resized_frame, (0,0), resized_frame.convert('RGBA'))
 
             i += 1
@@ -104,8 +107,7 @@ def bench_resize(path, output_type, width, height, num_iter):
     for i in xrange(num_iter):
         start = time.time()
         im = Image.open(blob)
-        im = im.convert('RGB' if output_type == 'JPEG' else 'RGBA')
-        im = ImageOps.fit(im, (width, height), Image.LANCZOS)
+        im = ImageOps.fit(im, (width, height), Image.BICUBIC)
         output = StringIO()
         im.save(output, output_type, **save_opts[output_type])
         if i == 0:
